@@ -7,6 +7,13 @@ export {}
 /* prettier-ignore */
 declare module 'vue' {
   export interface GlobalComponents {
+    ChartComponent: typeof import('./src/components/ChartComponent.vue')['default']
+    HeaderComponent: typeof import('./src/components/HeaderComponent.vue')['default']
     HelloWorld: typeof import('./src/components/HelloWorld.vue')['default']
+    InstrumentItemComponent: typeof import('./src/components/InstrumentItemComponent.vue')['default']
+    InstrumentListComponent: typeof import('./src/components/InstrumentListComponent.vue')['default']
+    SearchBarComponent: typeof import('./src/components/SearchBarComponent.vue')['default']
+    SummaryComponent: typeof import('./src/components/SummaryComponent.vue')['default']
+    TabComponent: typeof import('./src/components/TabComponent.vue')['default']
   }
 }

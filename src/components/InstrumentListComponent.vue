@@ -1,0 +1,3 @@
+<template>
+    instrument list
+</template>
