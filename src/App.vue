@@ -11,16 +11,18 @@ import InstrumentListComponent from "@/components/InstrumentListComponent.vue";
   <v-app>
     <v-main>
       <v-container fluid>
-        <tab-component />
         <search-bar-component class="mt-2" />
-        <header-component />
-        <v-row>
-          <v-col cols="12" md="8">
-            <chart-component />
-            <v-spacer class="my-3"></v-spacer>
-            <summary-component />
+        <v-row class="flex justify-center justify-space-between">
+          <v-col cols="12" md="9">
+            <header-component />
+            <chart-component class="w-50"/>  
           </v-col>
-          <v-col cols="12" md="4">
+          <v-col cols="12" md="3" class="mt-15">
+            <summary-component />
+          </v-col>   
+          <v-col cols="12">
+            <tab-component />
+            <v-divider :thickness="4"></v-divider>
             <instrument-list-component />
           </v-col>
         </v-row>
