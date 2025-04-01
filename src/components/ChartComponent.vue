@@ -70,7 +70,7 @@ const changePeriod = (period: string) => {
 </script>
 
 <template>
-  <div class="rounded-lg shadow-lg p-4">
+  <div class="rounded-lg shadow-lg p-4 mt-5">
     <Line  :data="chartData" :options="chartOptions" />
     <div class="d-flex">
         <v-btn 

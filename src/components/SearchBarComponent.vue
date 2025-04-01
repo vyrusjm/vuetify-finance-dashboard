@@ -7,7 +7,7 @@ const onSearch = () => {
 }
 </script>
 <template>
-    <v-card flat class="pa-2">
+    <v-card flat class="mb-2">
       <v-text-field
         v-model="searchText"
         density="compact"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 </script>
 <template>
-    <v-row class="my-2">
+    <v-row>
         <v-col cols="12">
             <span class="text-h5">IPSA, CHILE</span>
         </v-col>

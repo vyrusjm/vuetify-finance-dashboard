@@ -15,13 +15,14 @@ import InstrumentListComponent from "@/components/InstrumentListComponent.vue";
         <v-row class="flex justify-center justify-space-between">
           <v-col cols="12" md="9">
             <header-component />
-            <chart-component/>  
+            <chart-component class="w-50"/>  
           </v-col>
           <v-col cols="12" md="3" class="mt-15">
             <summary-component />
           </v-col>   
           <v-col cols="12">
             <tab-component />
+            <v-divider :thickness="4"></v-divider>
             <instrument-list-component />
           </v-col>
         </v-row>

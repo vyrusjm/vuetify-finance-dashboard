@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import TabDetails from "@/components/summary/DetailsTabComponent.vue";
+import AlertComponent from "@/components/common/AlertComponent.vue";
 import { ref } from "vue";
 const tabs = [
   { label: "Resumen", value: "resume" },
@@ -68,7 +70,7 @@ const onTabChange = (value: string) => {
       slider-color="#0458a0"
       v-model="activeTab"
       fixed-tabs
-      height="60"
+      height="40"
       @update:model-value="onTabChange(activeTab)"
     >
       <v-tab v-for="tab in tabs" :key="tab.value" :value="tab.value">
@@ -76,42 +78,17 @@ const onTabChange = (value: string) => {
       </v-tab>
     </v-tabs>
     <v-tabs-window v-model="activeTab">
-      <v-tabs-window-item value="resume"> resumen </v-tabs-window-item>
-      <v-tabs-window-item value="details" class="text-subtitle-2 pb-1">
-        <v-row class="d-flex align-center py-7 px-1">
-          <v-col cols="6">
-            <p>Cotización</p>
-          </v-col>
-          <v-col cols="6">
-            <p>06-11-2024 12:52:07 pm</p>
-          </v-col>
-        </v-row>
-        <v-divider class="mb-4" :thickness="4"></v-divider>
-        <v-row v-for="(detail, index) in detailsContent" :key="index" class="d-flex align-center px-1">
-          <v-col class="py-1" cols="6">
-            <p>{{ detail.title }}</p>
-          </v-col>
-          <v-col class="d-flex justify-end py-1" cols="6">
-            <p>{{ detail.value }}</p>
-          </v-col>
-        </v-row>
-        <v-row class="d-flex align-center py-1 px-1">
-          <v-col cols="6">
-            <p>Variación**</p>
-          </v-col>
-          <v-col class="d-flex justify-end" cols="6">
-            <p>%</p>
-          </v-col>
-        </v-row>
-        <v-divider class="my-4" :thickness="4"></v-divider>
-        <v-row v-for="(time, indexInTime) in detailsInTime" :key="indexInTime" class="d-flex align-center px-1">
-          <v-col class="py-1" cols="6">
-            <p>{{ time.title }}</p>
-          </v-col>
-          <v-col class="d-flex justify-end py-1 " cols="6">
-            <p :class="time.value > 0 ? 'text-green':'text-red'">{{ `${time.value >= 0 ? '+':'-'} ${time.value}%`}} </p>
-          </v-col>
-        </v-row>
+      <v-tabs-window-item value="resume">
+        <alert-component
+            message="Falta información en la imagen"
+            type="info" 
+        />
+      </v-tabs-window-item>
+      <v-tabs-window-item value="details" class="text-caption pb-1">
+        <tab-details 
+            :details="detailsContent"
+            :detailsInTime="detailsInTime"
+        />
       </v-tabs-window-item>
     </v-tabs-window>
   </div>
