@@ -72,9 +72,8 @@ const chartOptions = {
     },
     x: {
       ticks: {
-        display: false, 
+        display: false,
       },
-
     },
   },
 };
@@ -89,15 +88,21 @@ const changePeriod = (period: ChartPeriod) => {
 
 <template>
   <div class="py-10" v-if="isLoading">
-    <v-skeleton-loader type="card" style="height: 32.5vh;"></v-skeleton-loader>
+    <v-skeleton-loader type="card" class="h-32"></v-skeleton-loader>
   </div>
   <div v-else class="rounded-lg shadow-lg p-4 mt-5">
-    <Line :data="chartData" :options="chartOptions" v-if="store.chartData?.length" />
-    <div v-else class="text-center text-gray-500" style="height: 32.5vh;">
-      <alert-component message="No hay datos disponibles para el rango de fecha seleccionado" type="info" />
-      
+    <Line
+      :data="chartData"
+      :options="chartOptions"
+      v-if="store.chartData?.length"
+    />
+    <div v-else class="text-center text-gray-500 h-32">
+      <alert-component
+        message="No hay datos disponibles para el rango de fecha seleccionado"
+        type="info"
+      />
     </div>
-    
+
     <div class="d-flex mt-3">
       <v-btn
         v-for="period in periods"
@@ -112,3 +117,9 @@ const changePeriod = (period: ChartPeriod) => {
     </div>
   </div>
 </template>
+
+<style scoped>
+.h-32 {
+  height: 32vh;
+}
+</style>
