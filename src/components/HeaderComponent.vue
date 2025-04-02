@@ -48,8 +48,8 @@ import { formatPrice, formatPercentage } from "@/utils/index";
           class="text-subtitle-1"
           :class="{
             'text-white': selectedInstrument?.price?.performanceRelative === 0,
-            'text-green': selectedInstrument?.price?.performanceRelative > 0,
-            'text-red': selectedInstrument?.price?.performanceRelative < 0,
+            'text-green': Number(selectedInstrument?.price?.performanceRelative) > 0,
+            'text-red': Number(selectedInstrument?.price?.performanceRelative) < 0,
           }"
           >{{
             isLoading
@@ -68,8 +68,8 @@ import { formatPrice, formatPercentage } from "@/utils/index";
           class="text-subtitle-1"
           :class="{
             'text-white': selectedInstrument?.price?.performanceAbsolute === 0,
-            'text-green': selectedInstrument?.price?.performanceAbsolute > 0,
-            'text-red': selectedInstrument?.price?.performanceAbsolute < 0,
+            'text-green': Number(selectedInstrument?.price?.performanceAbsolute) > 0,
+            'text-red': Number(selectedInstrument?.price?.performanceAbsolute) < 0,
           }"
           >{{
             formatPrice(selectedInstrument?.price?.performanceAbsolute ??  0)

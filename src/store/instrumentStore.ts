@@ -1,24 +1,28 @@
 // src/stores/instrumentStore.ts
 import { defineStore } from "pinia";
 import { ref, computed } from "vue";
-import { fetchConstituents, fetchInstrumentDetail, fetchChartData, fetchIPSADefault } from "@/services/api";
+import {
+  fetchConstituents,
+  fetchInstrumentDetail,
+  fetchChartData,
+  fetchIPSADefault,
+} from "@/services/api";
 
 import type {
-    Constituents,
-    InstrumentDetail,
-    ChartDataPoint,
-    Instrument
+  Constituents,
+  InstrumentDetail,
+  ChartPeriod,
+  ChartEntry,
 } from "@/types/index";
 
-type ChartPeriod = "1M" | "3M" | "6M" | "1A";
-type TabName = "IPSA" | "IGPA" | "NASDAQ" | "DOWN JONES" | "SP/BVL" |string;
+type TabName = "IPSA" | "IGPA" | "NASDAQ" | "DOWN JONES" | "SP/BVL" | string;
 
 export const useInstrumentStore = defineStore("instrument", () => {
   // State
   const constituents = ref<Constituents[]>([]);
   const selectedInstrument = ref<InstrumentDetail | null>(null);
-  const chartPeriod = ref<ChartPeriod>("1M");
-  const chartData = ref<ChartDataPoint[]>([]);
+  const chartPeriod = ref<ChartPeriod>("6M");
+  const chartData = ref<ChartEntry[]>([]);
   const isLoading = ref<boolean>(false);
   const isLoadingInstrument = ref<boolean>(false);
   const error = ref<string | null>(null);
@@ -28,19 +32,17 @@ export const useInstrumentStore = defineStore("instrument", () => {
   // Computed
   const filteredConstituents = computed(() => {
     if (!searchQuery.value) return constituents.value;
-    return constituents.value.filter(
-      (constituent) =>
-        constituent.name.toLowerCase().includes(searchQuery.value.toLowerCase())
+    return constituents.value.filter((constituent) =>
+      constituent.name.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
   });
 
   const headerInfo = computed(() => {
-    if (!selectedInstrument.value)
-      return { name: activeTab.value, value: 0, change: 0, changePercent: 0 };
+    if (!selectedInstrument.value || !selectedInstrument.value.info.codeInstrument )
+      return { name: activeTab.value, country: 'Desconocido' };
     return {
-      name: selectedInstrument.value.info.name,
-      value: selectedInstrument.value.price,
-      country: selectedInstrument.value.info.countryName
+      name: selectedInstrument.value.info.name ?? activeTab.value,
+      country: selectedInstrument.value.info.countryName ?? 'Desconocido',
     };
   });
 
@@ -50,16 +52,17 @@ export const useInstrumentStore = defineStore("instrument", () => {
     isLoading.value = true;
     error.value = null;
     try {
-        constituents.value = await fetchConstituents(activeTab.value);
+      constituents.value = await fetchConstituents();
       if (!selectedInstrument.value && constituents.value.length > 0) {
         selectedInstrument.value = await fetchIPSADefault();
+        await loadChartData("IPSA");
       }
     } catch (err: any) {
       error.value = err.message || "Error al cargar los instrumentos";
       console.error(error.value);
     } finally {
-        isLoadingInstrument.value = false;
-        isLoading.value = false;
+      isLoadingInstrument.value = false;
+      isLoading.value = false;
     }
   }
 
@@ -68,7 +71,7 @@ export const useInstrumentStore = defineStore("instrument", () => {
     error.value = null;
     try {
       selectedInstrument.value = await fetchInstrumentDetail(instrumentId);
-    //   await loadChartData(instrumentId);
+      await loadChartData(instrumentId);
     } catch (err: any) {
       error.value = err.message || "Error al cargar el detalle del instrumento";
       console.error(error.value);
@@ -78,27 +81,26 @@ export const useInstrumentStore = defineStore("instrument", () => {
   }
 
   async function loadChartData(instrumentId: string): Promise<void> {
-    isLoading.value = true;
     error.value = null;
     try {
-      chartData.value = await fetchChartData(instrumentId, chartPeriod.value);
+      chartData.value =
+        (await fetchChartData(instrumentId, chartPeriod.value)) ?? [];
     } catch (err: any) {
       error.value = err.message || "Error al cargar los datos del gráfico";
       console.error(error.value);
-    } finally {
-      isLoading.value = false;
     }
   }
 
   async function changeChartPeriod(period: ChartPeriod): Promise<void> {
     chartPeriod.value = period;
     if (selectedInstrument.value) {
-      await loadChartData(selectedInstrument.value.codeInstrument);
+      await loadChartData(selectedInstrument.value.info.codeInstrument);
     }
   }
 
   async function changeTab(tabName: TabName): Promise<void> {
     activeTab.value = tabName;
+    
     await loadConstituents();
   }
 
