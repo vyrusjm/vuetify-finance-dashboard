@@ -10,6 +10,9 @@ const isLoading = computed(() => store.isLoading);
   <div v-if="isLoading">
     <v-skeleton-loader type="list-item@7"></v-skeleton-loader>
   </div>
+  <div v-else-if="!selectedInstrument?.info.codeInstrument">
+    <alert-component message="No hay Información de este Instrumento en el zip" type="error" />
+  </div>
   <div v-else>
     <v-row class="d-flex align-center py-5 px-1">
       <v-col cols="6">
