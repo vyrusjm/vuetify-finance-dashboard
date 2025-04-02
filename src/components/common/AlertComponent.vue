@@ -6,11 +6,7 @@ const props = defineProps<{
 }>();
 </script>
 <template>
-    <v-alert
-        :type="type"
-        variant="tonal"
-        class="mx-4"
-      >
-        {{ message }}
-    </v-alert>
+  <v-alert :type="type" variant="tonal" class="mx-4">
+    {{ message }}
+  </v-alert>
 </template>
