@@ -27,7 +27,6 @@ const headers = [
   { title: "12 Meses", key: "pct1Y" },
 ];
 
-// Dividir en dos partes iguales
 const firstHalf = computed(() =>
   constituents.value.slice(0, Math.ceil(constituents.value.length / 2))
 );
@@ -38,8 +37,7 @@ const secondHalf = computed(() =>
 
 <template>
   <v-row>
-    <!-- Primera tabla -->
-    <v-col cols="6">
+    <v-col cols="12" lg="6">
       <v-data-table
         :headers="headers"
         :items="firstHalf"
@@ -60,9 +58,7 @@ const secondHalf = computed(() =>
         </template>
       </v-data-table>
     </v-col>
-
-    <!-- Segunda tabla -->
-    <v-col cols="6">
+    <v-col cols="12" lg="6">
       <v-data-table
         :headers="headers"
         :items="secondHalf"

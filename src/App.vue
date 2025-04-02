@@ -8,7 +8,9 @@
         <v-row class="flex justify-center justify-space-between">
           <v-col cols="12" md="9">
             <header-component />
-            <chart-component class="w-50" />
+            <v-col cols="12" lg="6">
+              <chart-component />
+            </v-col>
           </v-col>
           <v-col cols="12" md="3" class="mt-15">
             <summary-component />
